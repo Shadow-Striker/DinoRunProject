@@ -46,7 +46,7 @@ void Player::Update(sf::Time frameTime)
 {
 	velocity.x = 0;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		velocity.x = -MOVE_SPEED;
 	}
@@ -54,12 +54,16 @@ void Player::Update(sf::Time frameTime)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		velocity.x = MOVE_SPEED;
-	}
+	}*/
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		Jump();
 	}
+	rectDisplay.setPosition(sf::Vector2f(GetCollider().left, GetCollider().top));
+	rectDisplay.setSize(sf::Vector2f(GetCollider().width, GetCollider().height));
+	rectDisplay.setFillColor(sf::Color::Green);
+	//if(IsColliding(obstacle))
 
 	//update velocity based on gravity
 	velocity.y += GRAVITY * frameTime.asSeconds();
@@ -94,5 +98,4 @@ void Player::SetAlive(bool nowAlive)
 
 void Player::Collision()
 {
-
 }

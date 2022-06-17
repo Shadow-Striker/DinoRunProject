@@ -7,6 +7,7 @@ class Obstacle :
 public:
 	Obstacle();
 	virtual void Update(sf::Time frameTime) override;
+	void OnCollision(GameObject _collisionObject);
 
 private:
 	static sf::Texture* obstacleTexture;
@@ -17,7 +18,5 @@ private:
 	sf::Vector2f velocity;
 	const float MOVE_SPEED;
 
-protected:
-	void OnCollision(GameObject _collisionObject);
 };
 

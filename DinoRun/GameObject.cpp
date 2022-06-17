@@ -3,12 +3,14 @@
 GameObject::GameObject()
 	: objectPosition(0,0)
 	, objectSprite()
+	, rectDisplay()
 {
 
 }
 
 void GameObject::Draw(sf::RenderTarget& target)
 {
+	target.draw(rectDisplay);
 	target.draw(objectSprite);
 }
 

@@ -57,6 +57,11 @@ void Game::Update()
 	playerInstance.Update(deltaTime);
 	obstacleInstance.Update(deltaTime);
 
+	if (obstacleInstance.IsColliding(playerInstance))
+	{
+		scoreText.setString("GAME OVER");
+	}
+
 	//Enemy spawn frequency
 	float enemyFrequency = 2.0f;
 	timeSinceEnemy += deltaTime;
@@ -71,7 +76,7 @@ void Game::Update()
 void Game::SetupGame()
 {
 	sf::Vector2f screenSize(window.getSize());
-
+	sf::RectangleShape playerRectDisplay;
 	//Put our player in the centre of the screen vertically and near the left side.
 	playerInstance.SetPosition(sf::Vector2f(100, screenSize.y / 2 - 50));
 	obstacleInstance.SetPosition(sf::Vector2f(screenSize.x, screenSize.y / 2 - 50));
