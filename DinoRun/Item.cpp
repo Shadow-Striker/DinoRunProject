@@ -14,8 +14,9 @@ Item::Item()
 	objectSprite.setPosition(spawnPosition);
 	objectSprite.setTexture(*itemTexture);
 
-	pickupBuffer.loadFromFile("pickup.wav");
+	pickupBuffer.loadFromFile("Assets/Sounds/pickup.wav");
 	pickupSFX.setBuffer(pickupBuffer);
+	pickupSFX.setVolume(50.0f);
 
 	//Setup obstacle collider
 	modifiedCollider.left = 45;
