@@ -105,7 +105,7 @@ void Player::Update(sf::Time frameTime)
 
 	Play("Run");
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && GetPosition().y >= 100.0f)
 	{
 		Jump();		
 	}
