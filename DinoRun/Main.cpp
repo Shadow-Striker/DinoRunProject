@@ -1,10 +1,16 @@
 #include <SFML/Graphics.hpp>
+#include "Player.h"
+#include "GameObject.h"
+#include "Obstacle.h"
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
+	sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "SFML works!");
+	
+	sf::Clock gameClock;
+
+	Player myPlayer;
+	Obstacle cactus;
 
 	while (window.isOpen())
 	{
@@ -16,10 +22,17 @@ int main()
 				window.close();
 			}
 
-			window.clear();
-			window.draw(shape);
-			window.display();
 		}
+		//Update
+			sf::Time frameTime = gameClock.restart();
+			myPlayer.Update(frameTime);
+			cactus.Update(frameTime);
+
+		//Draw
+			window.clear();
+			myPlayer.Draw(window);
+			cactus.Draw(window);
+			window.display();
 	}
 
 	return 0;
