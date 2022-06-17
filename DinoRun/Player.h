@@ -1,15 +1,17 @@
 #pragma once
 #include "AnimatingObject.h"
+class Game;
 
 class Player :
     public AnimatingObject
 {
 public:
 
-    Player();
+    Player(Game* newGame);
     void Jump();
     bool GetAlive();
     void SetAlive(bool nowAlive);
+    void Collision();
     virtual void Update(sf::Time frameTime) override;
     //Player(sf::Sprite _playerSprite, sf::Vector2f _playerPos);
 

@@ -3,7 +3,7 @@
 sf::Texture* Obstacle::obstacleTexture = nullptr;
 
 Obstacle::Obstacle()
-	:  moveSpeed(-100)
+	:  moveSpeed(-500)
 	, spawnPosition(1000,1000)
 	, hitSFX()
 	, MOVE_SPEED(1)
@@ -19,11 +19,18 @@ Obstacle::Obstacle()
 
 void Obstacle::Update(sf::Time frameTime)
 {
-	//velocity.x = -moveSpeed;
+	velocity.x = moveSpeed;
 	//Update position based on velocity
-	SetPosition(GetPosition() + velocity * frameTime.asSeconds());
+	if (GetPosition().x > -1000)
+	{
+		SetPosition(GetPosition() + velocity * frameTime.asSeconds());
+	}
 }
 
-void Obstacle::OnCollision()
+void Obstacle::OnCollision(GameObject _collisionObject)
 {
+	if (IsColliding(_collisionObject))
+	{
+		
+	}
 }

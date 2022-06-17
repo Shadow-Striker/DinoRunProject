@@ -3,10 +3,10 @@
 sf::Texture* Player::playerStand = nullptr;
 sf::Texture* Player::playerJump = nullptr;
 
-Player::Player()
+Player::Player(Game* newGame)
 	:AnimatingObject()
 	, MOVE_SPEED(100)
-	, JUMP_SPEED(50)
+	, JUMP_SPEED(300)
 	, GRAVITY(1000)
 	, velocity(0, 0)
 {
@@ -71,7 +71,7 @@ void Player::Update(sf::Time frameTime)
 	}
 
 	//Update position based on velocity
-	//SetPosition(GetPosition() + velocity * frameTime.asSeconds());
+	SetPosition(GetPosition() + velocity * frameTime.asSeconds());
 	AnimatingObject::Update(frameTime);
 }
 
@@ -88,6 +88,11 @@ bool Player::GetAlive()
 
 
 void Player::SetAlive(bool nowAlive)
+{
+
+}
+
+void Player::Collision()
 {
 
 }

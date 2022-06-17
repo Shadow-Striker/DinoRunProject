@@ -18,6 +18,6 @@ private:
 	const float MOVE_SPEED;
 
 protected:
-	void OnCollision();
+	void OnCollision(GameObject _collisionObject);
 };
 
