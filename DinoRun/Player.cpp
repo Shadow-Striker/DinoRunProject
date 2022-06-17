@@ -1,10 +1,12 @@
 #include "Player.h"
+#include "Game.h"
 
 sf::Texture* Player::playerStand = nullptr;
 sf::Texture* Player::playerJump = nullptr;
 
 Player::Player(Game* newGame)
 	:AnimatingObject()
+	, score(0)
 	, MOVE_SPEED(100)
 	, JUMP_SPEED(300)
 	, GRAVITY(1000)
@@ -45,7 +47,7 @@ Player::Player(Game* newGame)
 void Player::Update(sf::Time frameTime)
 {
 	velocity.x = 0;
-
+	score++;
 	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		velocity.x = -MOVE_SPEED;
@@ -88,6 +90,11 @@ void Player::Jump()
 bool Player::GetAlive()
 {
 	return false;
+}
+
+int Player::GetScore()
+{
+	return score;
 }
 
 

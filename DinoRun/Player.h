@@ -10,6 +10,7 @@ public:
     Player(Game* newGame);
     void Jump();
     bool GetAlive();
+    int GetScore();
     void SetAlive(bool nowAlive);
     void Collision();
     virtual void Update(sf::Time frameTime) override;
@@ -20,6 +21,7 @@ private:
     static sf::Texture* playerJump;
 
     sf::Vector2f velocity;
+    int score;
     const float MOVE_SPEED;
     const float JUMP_SPEED;
     const float GRAVITY;

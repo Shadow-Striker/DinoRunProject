@@ -8,6 +8,9 @@ Obstacle::Obstacle()
 	, hitSFX()
 	, MOVE_SPEED(1)
 {
+	int obstacleChoice = rand() % 100;
+	int flyingObstacleChance = 50;
+
 	if (obstacleTexture == nullptr)
 	{
 		obstacleTexture = new sf::Texture();
@@ -26,7 +29,9 @@ Obstacle::Obstacle()
 void Obstacle::Update(sf::Time frameTime)
 {
 	velocity.x = moveSpeed;
+	
 	//Update position based on velocity
+	//If the obstacle is off the left side of the screen, move it back to the right side of the screen
 	if (GetPosition().x > -10)
 	{
 		SetPosition(GetPosition() + velocity * frameTime.asSeconds());

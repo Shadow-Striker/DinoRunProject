@@ -41,6 +41,8 @@ int main()
 			window.draw(text);
 			window.display();
 	}*/
+	//Seeding RNG
+	srand(time(NULL));
 	Game ourGame;
 	ourGame.Run();
 	return 0;
