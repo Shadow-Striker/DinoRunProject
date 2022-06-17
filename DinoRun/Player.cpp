@@ -11,6 +11,8 @@ Player::Player(Game* newGame)
 	, JUMP_SPEED(300)
 	, GRAVITY(1000)
 	, velocity(0, 0)
+	, isAlive(true)
+	, jumpSound()
 {
 	if (playerStand == nullptr)
 	{
@@ -24,6 +26,9 @@ Player::Player(Game* newGame)
 		playerJump->loadFromFile("Assets/Graphics/dino-jump.png");
 	}
 
+	soundBuffer.loadFromFile("Assets/Sounds/jump.wav");
+	jumpSound.setBuffer(soundBuffer);
+	jumpSound.setVolume(5.0f);
 	objectSprite.setTexture(*playerStand);
 	objectSprite.setPosition(100, 500);
 
@@ -61,6 +66,7 @@ void Player::Update(sf::Time frameTime)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		Jump();
+		
 	}
 	rectDisplay.setPosition(sf::Vector2f(GetCollider().left, GetCollider().top));
 	rectDisplay.setSize(sf::Vector2f(GetCollider().width, GetCollider().height));
@@ -83,13 +89,14 @@ void Player::Update(sf::Time frameTime)
 
 void Player::Jump()
 {
+	jumpSound.play();
 	velocity.y = -JUMP_SPEED;
 	Play("Jump");
 }
 
 bool Player::GetAlive()
 {
-	return false;
+	return isAlive;
 }
 
 int Player::GetScore()
@@ -98,9 +105,9 @@ int Player::GetScore()
 }
 
 
-void Player::SetAlive(bool nowAlive)
+void Player::SetAlive(bool _isAlive)
 {
-
+	isAlive = _isAlive;
 }
 
 void Player::Collision()

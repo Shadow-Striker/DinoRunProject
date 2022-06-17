@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <SFML/Graphics.hpp>
+	
 #include <string>
 #include <iostream>
 #include <sstream>
@@ -43,9 +44,9 @@ void Game::Run()
 			window.close();
 		}
 
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && isGameOver)
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !playerInstance.GetAlive())
 		{
-			
+			playerInstance.SetAlive(true);
 		}
 	}
 
@@ -61,7 +62,7 @@ void Game::Draw()
 
 	window.draw(scoreText);
 
-	if (isGameOver)
+	if (!playerInstance.GetAlive())
 	{
 		window.draw(gameOverText);
 		window.draw(restartButton);
@@ -74,15 +75,19 @@ void Game::Update()
 	//sf::Time is for storing time precisely.
 	//Time passed since last frame.
 	sf::Time deltaTime = gameClock.restart();
-	playerInstance.Update(deltaTime);
-	obstacleInstance.Update(deltaTime);
-	flyingObstacleInstance.Update(deltaTime);
-	std::stringstream ss;
-	ss << "SCORE: " << playerInstance.GetScore();
-	scoreText.setString(ss.str());
+
+	if (playerInstance.GetAlive())
+	{
+		playerInstance.Update(deltaTime);
+		obstacleInstance.Update(deltaTime);
+		flyingObstacleInstance.Update(deltaTime);
+		std::stringstream ss;
+		ss << "SCORE: " << playerInstance.GetScore();
+		scoreText.setString(ss.str());
+	}
 	if (obstacleInstance.IsColliding(playerInstance) || flyingObstacleInstance.IsColliding(playerInstance))
 	{
-		isGameOver = true;
+		playerInstance.SetAlive(false);
 	}
 
 	//Enemy spawn frequency
@@ -110,18 +115,26 @@ void Game::SetupGame()
 	obstacleInstance.SetPosition(sf::Vector2f(screenSize.x, screenSize.y / 2 - 50));
 	font.loadFromFile("Assets/Graphics/enter-command.ttf");
 
+	//Restart Button
 	restartButtonTexture.loadFromFile("Assets/Graphics/button-retry.png");
 	restartButton.setTexture(restartButtonTexture);
 	restartButton.setPosition(screenSize.x / 2 - 60, screenSize.y / 2 + 60);
 
+	//Score Text
 	scoreText.setFont(font);
 	scoreText.setString("Score: " + playerInstance.GetScore());
 	scoreText.setPosition(screenSize.x - 300, 100);
 
+	//Game Over Text
 	gameOverText.setFont(font);
 	gameOverText.setString("GAME OVER");
 	gameOverText.setPosition(screenSize.x / 2 - 200, screenSize.y / 2 - 60);
 	gameOverText.setCharacterSize(100);
+
+	//Music
+	gameMusic.openFromFile("Assets/Sounds/music.ogg");
+	gameMusic.setVolume(30.0f);
+	gameMusic.play();
 }
 
 void Game::SpawnEnemy()

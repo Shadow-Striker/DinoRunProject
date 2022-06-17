@@ -1,5 +1,6 @@
 #pragma once
 #include "AnimatingObject.h"
+#include <SFML/Audio.hpp>
 class Game;
 
 class Player :
@@ -11,7 +12,7 @@ public:
     void Jump();
     bool GetAlive();
     int GetScore();
-    void SetAlive(bool nowAlive);
+    void SetAlive(bool _isAlive);
     void Collision();
     virtual void Update(sf::Time frameTime) override;
     //Player(sf::Sprite _playerSprite, sf::Vector2f _playerPos);
@@ -26,6 +27,9 @@ private:
     const float JUMP_SPEED;
     const float GRAVITY;
     static sf::Texture* playerTexture;
+    bool isAlive;
+    sf::Sound jumpSound;
+    sf::SoundBuffer soundBuffer;
 
 };
 

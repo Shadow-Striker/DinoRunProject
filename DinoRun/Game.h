@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Player.h"
 #include "Obstacle.h"
 #include "FlyingObstacle.h"
@@ -30,6 +31,7 @@ private:
 	sf::Text gameOverText;
 	sf::Sprite restartButton;
 	sf::Texture restartButtonTexture;
+	sf::Music gameMusic;
 	bool isGameOver;
 
 
