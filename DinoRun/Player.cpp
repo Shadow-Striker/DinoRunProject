@@ -3,6 +3,10 @@
 
 sf::Texture* Player::playerStand = nullptr;
 sf::Texture* Player::playerJump = nullptr;
+sf::Texture* Player::playerRun = nullptr;
+sf::Texture* Player::playerRunTwo = nullptr;
+sf::Texture* Player::playerDuck = nullptr;
+sf::Texture* Player::playerDuckTwo = nullptr;
 
 Player::Player(Game* newGame)
 	:AnimatingObject()
@@ -13,11 +17,25 @@ Player::Player(Game* newGame)
 	, velocity(0, 0)
 	, isAlive(true)
 	, jumpSound()
+	, deathSound()
+	, playedDeathSound(false)
 {
 	if (playerStand == nullptr)
 	{
 		playerStand = new sf::Texture();
 		playerStand->loadFromFile("Assets/Graphics/dino-stand.png");
+	}
+
+	if (playerRun == nullptr)
+	{
+		playerRun = new sf::Texture();
+		playerRun->loadFromFile("Assets/Graphics/dino-run-1.png");
+	}
+
+	if (playerRunTwo == nullptr)
+	{
+		playerRunTwo = new sf::Texture();
+		playerRunTwo->loadFromFile("Assets/Graphics/dino-run-2.png");
 	}
 
 	if (playerJump == nullptr)
@@ -26,20 +44,51 @@ Player::Player(Game* newGame)
 		playerJump->loadFromFile("Assets/Graphics/dino-jump.png");
 	}
 
-	soundBuffer.loadFromFile("Assets/Sounds/jump.wav");
-	jumpSound.setBuffer(soundBuffer);
+	if (playerDuck == nullptr)
+	{
+		playerDuck = new sf::Texture();
+		playerDuck->loadFromFile("Assets/Graphics/dino-crouch-1.png");
+	}
+	if (playerDuckTwo == nullptr)
+	{
+		playerDuckTwo = new sf::Texture();
+		playerDuckTwo->loadFromFile("Assets/Graphics/dino-crouch-2.png");
+	}
+
+	jumpSoundBuffer.loadFromFile("Assets/Sounds/jump.wav");
+	jumpSound.setBuffer(jumpSoundBuffer);
 	jumpSound.setVolume(5.0f);
+
+	deathSoundBuffer.loadFromFile("Assets/Sounds/death.wav");
+	deathSound.setBuffer(deathSoundBuffer);
+	deathSound.setVolume(10.0f);
+	deathSound.setLoop(false);
+
 	objectSprite.setTexture(*playerStand);
 	objectSprite.setPosition(100, 500);
 
-	//Create the animation
+
+	//Create run animation
+	Animation* run = CreateAnim("Run");
+	run->AddFrame(playerRun);
+	run->AddFrame(playerRunTwo);
+	run->SetPlaybackSpeed(10);
+	run->SetLoop(false);
+
+	//Create jump animation
 	Animation* jump = CreateAnim("Jump");
 	jump->AddFrame(playerStand);
 	jump->AddFrame(playerJump);
 	jump->SetPlaybackSpeed(10);
 	jump->SetLoop(false);
 
-	Play("Jump");
+	//Create duck animation
+	Animation* duck = CreateAnim("Duck");
+	duck->AddFrame(playerDuck);
+	duck->AddFrame(playerDuckTwo);
+	duck->AddFrame(playerStand);
+	duck->SetPlaybackSpeed(10);
+	duck->SetLoop(false);
 
 	//Setup player collider
 	modifiedCollider.left = 45;
@@ -53,25 +102,24 @@ void Player::Update(sf::Time frameTime)
 {
 	velocity.x = 0;
 	score++;
-	/*if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		velocity.x = -MOVE_SPEED;
-	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		velocity.x = MOVE_SPEED;
-	}*/
+	Play("Run");
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
-		Jump();
-		
+		Jump();		
 	}
-	rectDisplay.setPosition(sf::Vector2f(GetCollider().left, GetCollider().top));
-	rectDisplay.setSize(sf::Vector2f(GetCollider().width, GetCollider().height));
-	rectDisplay.setFillColor(sf::Color::Green);
-	//if(IsColliding(obstacle))
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		Duck();
+	}
+	
+	if (!isAlive && !playedDeathSound)
+	{
+		deathSound.play();
+		playedDeathSound = true;
+	}
 
 	//update velocity based on gravity
 	velocity.y += GRAVITY * frameTime.asSeconds();
@@ -94,6 +142,11 @@ void Player::Jump()
 	Play("Jump");
 }
 
+void Player::Duck()
+{
+	Play("Duck");
+}
+
 bool Player::GetAlive()
 {
 	return isAlive;
@@ -102,6 +155,11 @@ bool Player::GetAlive()
 int Player::GetScore()
 {
 	return score;
+}
+
+void Player::ResetScore()
+{
+	score = 0;
 }
 
 

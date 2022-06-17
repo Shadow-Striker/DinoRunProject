@@ -150,6 +150,7 @@
     <ClCompile Include="FlyingObstacle.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="FlyingObstacle.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>

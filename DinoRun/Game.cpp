@@ -10,6 +10,7 @@ Game::Game()
 	, playerInstance(this)
 	, obstacleInstance()
 	, flyingObstacleInstance()
+	, itemInstance()
 	, timeSinceEnemy()
 	, font()
 	, scoreText()
@@ -17,8 +18,6 @@ Game::Game()
 	, restartButton()
 	, isGameOver(false)
 {
-	//New keyword gives us the address to an object
-	//AddBullet(new Bullet());
 }
 
 void Game::Run()
@@ -46,7 +45,7 @@ void Game::Run()
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !playerInstance.GetAlive())
 		{
-			playerInstance.SetAlive(true);
+			RestartGame();
 		}
 	}
 
@@ -59,6 +58,7 @@ void Game::Draw()
 	playerInstance.Draw(window);
 	obstacleInstance.Draw(window);
 	flyingObstacleInstance.Draw(window);
+	itemInstance.Draw(window);
 
 	window.draw(scoreText);
 
@@ -76,18 +76,27 @@ void Game::Update()
 	//Time passed since last frame.
 	sf::Time deltaTime = gameClock.restart();
 
+	playerInstance.Update(deltaTime);
+	//Only run this while player is still alive
 	if (playerInstance.GetAlive())
 	{
-		playerInstance.Update(deltaTime);
+
 		obstacleInstance.Update(deltaTime);
 		flyingObstacleInstance.Update(deltaTime);
+		itemInstance.Update(deltaTime);
 		std::stringstream ss;
 		ss << "SCORE: " << playerInstance.GetScore();
 		scoreText.setString(ss.str());
 	}
+	
 	if (obstacleInstance.IsColliding(playerInstance) || flyingObstacleInstance.IsColliding(playerInstance))
 	{
 		playerInstance.SetAlive(false);
+	}
+
+	if (itemInstance.IsColliding(playerInstance))
+	{
+		itemInstance.BoostScore(playerInstance.GetScore());
 	}
 
 	//Enemy spawn frequency
@@ -113,6 +122,8 @@ void Game::SetupGame()
 	//Put our player in the centre of the screen vertically and near the left side.
 	playerInstance.SetPosition(sf::Vector2f(100, screenSize.y / 2 - 50));
 	obstacleInstance.SetPosition(sf::Vector2f(screenSize.x, screenSize.y / 2 - 50));
+	flyingObstacleInstance.SetPosition(sf::Vector2f(2000, 300));
+	itemInstance.SetPosition(sf::Vector2f(screenSize.x + 300.0f, screenSize.y / 2));
 	font.loadFromFile("Assets/Graphics/enter-command.ttf");
 
 	//Restart Button
@@ -143,6 +154,17 @@ void Game::SpawnEnemy()
 
 	int enemyChoice = rand() % 100;
 	int chaseEnemyChance = 50;
+}
+
+void Game::RestartGame()
+{
+	playerInstance.ResetScore();
+	sf::Vector2f screenSize(window.getSize());
+	playerInstance.SetPosition(sf::Vector2f(100, screenSize.y / 2 - 50));
+	obstacleInstance.SetPosition(sf::Vector2f(screenSize.x, screenSize.y / 2 - 50));
+	itemInstance.SetPosition(sf::Vector2f(screenSize.x, screenSize.y / 2 - 50));
+	flyingObstacleInstance.SetPosition(sf::Vector2f(2000, 300));
+	playerInstance.SetAlive(true);
 }
 
 

@@ -20,14 +20,15 @@ Obstacle::Obstacle()
 	objectSprite.setTexture(*obstacleTexture);
 
 	//Setup obstacle collider
-	modifiedCollider.left = 45;
-	modifiedCollider.top = 73;
+	modifiedCollider.left = -10;
+	modifiedCollider.top = 35;
 	modifiedCollider.width = 102 - modifiedCollider.left;
 	modifiedCollider.height = 140 - modifiedCollider.top;
 }
 
 void Obstacle::Update(sf::Time frameTime)
 {
+	moveSpeed -= .025f;
 	velocity.x = moveSpeed;
 	
 	//Update position based on velocity
@@ -41,9 +42,9 @@ void Obstacle::Update(sf::Time frameTime)
 		SetPosition(sf::Vector2f(2000, 500));
 	}
 
-	rectDisplay.setPosition(sf::Vector2f(GetCollider().left, GetCollider().top));
-	rectDisplay.setSize(sf::Vector2f(GetCollider().width, GetCollider().height));
-	rectDisplay.setFillColor(sf::Color::Green);
+	//rectDisplay.setPosition(sf::Vector2f(GetCollider().left, GetCollider().top));
+	//rectDisplay.setSize(sf::Vector2f(GetCollider().width, GetCollider().height));
+	//rectDisplay.setFillColor(sf::Color::Green);
 }
 
 void Obstacle::OnCollision(GameObject _collisionObject)

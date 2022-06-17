@@ -36,6 +36,7 @@ FlyingObstacle::FlyingObstacle()
 
 void FlyingObstacle::Update(sf::Time frameTime)
 {
+	moveSpeed -= .01f;
 	velocity.x = moveSpeed;
 	//Update position based on velocity
 	//If the obstacle is off the left side of the screen, move it back to the right side of the screen
@@ -48,8 +49,9 @@ void FlyingObstacle::Update(sf::Time frameTime)
 		SetPosition(sf::Vector2f(2000, 300));
 	}
 
-	rectDisplay.setPosition(sf::Vector2f(GetCollider().left, GetCollider().top));
-	rectDisplay.setSize(sf::Vector2f(GetCollider().width, GetCollider().height));
-	rectDisplay.setFillColor(sf::Color::Green);
+	//rectDisplay.setPosition(sf::Vector2f(GetCollider().left, GetCollider().top));
+	//rectDisplay.setSize(sf::Vector2f(GetCollider().width, GetCollider().height));
+	//rectDisplay.setFillColor(sf::Color::Green);
 	AnimatingObject::Update(frameTime);
+
 }

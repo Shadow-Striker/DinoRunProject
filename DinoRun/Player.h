@@ -10,8 +10,10 @@ public:
 
     Player(Game* newGame);
     void Jump();
+    void Duck();
     bool GetAlive();
     int GetScore();
+    void ResetScore();
     void SetAlive(bool _isAlive);
     void Collision();
     virtual void Update(sf::Time frameTime) override;
@@ -19,7 +21,11 @@ public:
 
 private:
     static sf::Texture* playerStand;
+    static sf::Texture* playerRun;
+    static sf::Texture* playerRunTwo;
     static sf::Texture* playerJump;
+    static sf::Texture* playerDuck;
+    static sf::Texture* playerDuckTwo;
 
     sf::Vector2f velocity;
     int score;
@@ -28,8 +34,11 @@ private:
     const float GRAVITY;
     static sf::Texture* playerTexture;
     bool isAlive;
+    bool playedDeathSound;
     sf::Sound jumpSound;
-    sf::SoundBuffer soundBuffer;
+    sf::Sound deathSound;
+    sf::SoundBuffer jumpSoundBuffer;
+    sf::SoundBuffer deathSoundBuffer;
 
 };
 

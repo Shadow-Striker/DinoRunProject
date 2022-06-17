@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Obstacle.h"
 #include "FlyingObstacle.h"
+#include "Item.h"
 
 class Game
 {
@@ -19,12 +20,14 @@ public:
 private:
 	void SetupGame();
 	void SpawnEnemy();
+	void RestartGame();
 
 	sf::RenderWindow window;
 	sf::Clock gameClock;
 	Player playerInstance;
 	Obstacle obstacleInstance;
 	FlyingObstacle flyingObstacleInstance;
+	Item itemInstance;
 	sf::Time timeSinceEnemy;
 	sf::Font font;
 	sf::Text scoreText;
